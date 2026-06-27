@@ -356,13 +356,19 @@ button i,
   pointer-events: none;
 }
 
+.profile-block img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 60px;
+}
 .profile-block {
   width: 120px;
   height: 120px;
-  border-radius: 28px;
+  border-radius: 40px;
   background: linear-gradient(145deg, rgba(100, 255, 218, 0.17), rgba(90, 135, 255, 0.16));
   display: grid;
-  place-items: center;
+  place-items: left;
   margin-bottom: 1.5rem;
   color: #fff;
   font-size: 3rem;
