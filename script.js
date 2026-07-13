@@ -4,6 +4,7 @@ const sections = document.querySelectorAll('.section');
 const scrollTopBtn = document.getElementById('scrollTopBtn');
 const loader = document.getElementById('pageLoader');
 const loaderProgressBar = document.getElementById('loaderProgressBar');
+const loaderPercentage = document.getElementById('loaderPercentage');
 const loaderStatus = document.getElementById('loaderStatus');
 const typingText = document.getElementById('typingText');
 const navLinks = document.querySelectorAll('.site-nav a[href^="#"]');
@@ -97,6 +98,9 @@ function animateLoader() {
     
     if (loaderProgressBar) {
       loaderProgressBar.style.width = Math.min(progress, 100) + '%';
+    }
+    if (loaderPercentage) {
+      loaderPercentage.textContent = Math.round(Math.min(progress, 100)) + '%';
     }
   }, 200);
 }

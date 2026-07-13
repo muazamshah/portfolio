@@ -36,15 +36,12 @@
       <div class="loader-glow loader-glow-2"></div>
       
       <div class="loader-content">
-        <!-- Animated ring with gradient -->
+        <!-- Animated ring around the profile picture -->
         <div class="loader-ring-outer">
-          <div class="loader-ring-inner"></div>
-        </div>
-        
-        <!-- Loading image -->
-        <div class="loader-image-wrapper">
-          <img src="profile.jpeg" alt="Loading" class="loader-image" />
-          <div class="loader-image-glow"></div>
+          <div class="loader-ring-image">
+            <img src="profile.jpeg" alt="Loading" class="loader-image" />
+            <div class="loader-image-glow"></div>
+          </div>
         </div>
         
         <!-- Brand text with gradient -->
@@ -52,9 +49,12 @@
           <span class="loader-brand-text">Muazam Shah</span>
         </div>
         
-        <!-- Loading progress bar -->
-        <div class="loader-progress">
-          <div class="loader-progress-bar" id="loaderProgressBar"></div>
+        <!-- Loading progress bar with percentage -->
+        <div class="loader-progress-wrapper">
+          <div class="loader-progress">
+            <div class="loader-progress-bar" id="loaderProgressBar"></div>
+          </div>
+          <span class="loader-percentage" id="loaderPercentage">0%</span>
         </div>
         
         <!-- Loading status -->

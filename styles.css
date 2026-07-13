@@ -300,49 +300,34 @@ button {
   }
 }
 
-/* Animated outer spinning ring */
+/* Animated outer spinning ring around image */
 .loader-ring-outer {
   position: relative;
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   background: conic-gradient(from 0deg, transparent, hsl(185, 100%, 50%), hsl(265, 100%, 65%), transparent);
   animation: loader-spin 1.2s linear infinite;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 0 30px rgba(34, 211, 238, 0.15), 0 0 60px rgba(139, 92, 246, 0.1);
 }
 
-.loader-ring-inner {
-  width: 80px;
-  height: 80px;
+.loader-ring-image {
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
+  overflow: hidden;
   background: #0c0c12;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @keyframes loader-spin {
   to { transform: rotate(360deg); }
-}
-
-/* Loading image circle */
-.loader-image-wrapper {
-  position: relative;
-  width: 100px;
-  height: 100px;
-  margin: -90px auto 0;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 2px solid rgba(34, 211, 238, 0.3);
-  box-shadow: 
-    0 0 0 6px rgba(139, 92, 246, 0.08),
-    0 0 40px rgba(34, 211, 238, 0.15),
-    0 0 80px rgba(139, 92, 246, 0.1);
-  animation: loader-image-pulse 2s ease-in-out infinite;
-}
-
-@keyframes loader-image-pulse {
-  0%, 100% { box-shadow: 0 0 0 6px rgba(139, 92, 246, 0.08), 0 0 40px rgba(34, 211, 238, 0.15), 0 0 80px rgba(139, 92, 246, 0.1); }
-  50% { box-shadow: 0 0 0 10px rgba(139, 92, 246, 0.12), 0 0 50px rgba(34, 211, 238, 0.25), 0 0 100px rgba(139, 92, 246, 0.15); }
 }
 
 .loader-image {
@@ -377,9 +362,17 @@ button {
   text-shadow: none;
 }
 
-/* Progress bar */
+/* Progress bar wrapper with percentage */
+.loader-progress-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 260px;
+}
+
 .loader-progress {
-  width: 220px;
+  flex: 1;
   height: 3px;
   border-radius: 99px;
   background: rgba(255, 255, 255, 0.08);
@@ -400,6 +393,17 @@ button {
 @keyframes loader-progress-glow {
   0%, 100% { box-shadow: 0 0 10px rgba(0, 234, 255, 0.3), 0 0 20px rgba(151, 77, 255, 0.2); }
   50% { box-shadow: 0 0 15px rgba(0, 234, 255, 0.5), 0 0 30px rgba(151, 77, 255, 0.3); }
+}
+
+/* Percentage text */
+.loader-percentage {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #974dff;
+  min-width: 36px;
+  text-align: right;
+  letter-spacing: -0.02em;
 }
 
 /* Loading status text */
