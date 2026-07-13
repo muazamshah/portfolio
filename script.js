@@ -3,6 +3,8 @@ const siteNav = document.querySelector('.site-nav');
 const sections = document.querySelectorAll('.section');
 const scrollTopBtn = document.getElementById('scrollTopBtn');
 const loader = document.getElementById('pageLoader');
+const loaderProgressBar = document.getElementById('loaderProgressBar');
+const loaderStatus = document.getElementById('loaderStatus');
 const typingText = document.getElementById('typingText');
 const navLinks = document.querySelectorAll('.site-nav a[href^="#"]');
 
@@ -45,11 +47,62 @@ function typeHeroText() {
   setTimeout(typeHeroText, delay);
 }
 
+// ============================================
+// LOADING SCREEN - Animated Progress
+// ============================================
+const loadingMessages = [
+  'Initializing...',
+  'Loading assets...',
+  'Configuring modules...',
+  'Almost ready...',
+  'Welcome!'
+];
+
+function animateLoader() {
+  if (!loaderProgressBar || !loaderStatus) return;
+  
+  let progress = 0;
+  let msgIndex = 0;
+  
+  // Update status text periodically
+  const statusInterval = setInterval(() => {
+    msgIndex = Math.min(msgIndex + 1, loadingMessages.length - 1);
+    if (loaderStatus) {
+      loaderStatus.textContent = loadingMessages[msgIndex];
+    }
+  }, 400);
+  
+  // Animate progress bar from 0 to 100%
+  const progressInterval = setInterval(() => {
+    progress += Math.random() * 8 + 2; // 2-10% increments
+    if (progress >= 100) {
+      progress = 100;
+      clearInterval(progressInterval);
+      clearInterval(statusInterval);
+      
+      // Set final status
+      if (loaderStatus) {
+        loaderStatus.textContent = 'Welcome!';
+      }
+      
+      // Hide loader after a brief pause
+      setTimeout(() => {
+        if (loader) {
+          loader.classList.add('hidden');
+        }
+        // Start typing animation after loader hides
+        typeHeroText();
+      }, 500);
+    }
+    
+    if (loaderProgressBar) {
+      loaderProgressBar.style.width = Math.min(progress, 100) + '%';
+    }
+  }, 200);
+}
+
 window.addEventListener('load', () => {
-  if (loader) {
-    loader.style.display = 'none';
-  }
-  typeHeroText();
+  animateLoader();
 });
 
 if (navToggle && siteNav) {
