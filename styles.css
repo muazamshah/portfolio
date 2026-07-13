@@ -324,10 +324,15 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: loader-spin-counter 1.2s linear infinite;
 }
 
 @keyframes loader-spin {
   to { transform: rotate(360deg); }
+}
+
+@keyframes loader-spin-counter {
+  to { transform: rotate(-360deg); }
 }
 
 .loader-image {
