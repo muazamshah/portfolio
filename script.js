@@ -64,7 +64,7 @@ function createLoaderRain() {
   const rainContainer = document.getElementById('loaderRain');
   if (!rainContainer) return;
   
-  for (let i = 0; i < 30; i++) {
+  for (let i = 0; i < 80; i++) {
     const drop = document.createElement('div');
     drop.className = 'loader-rain-drop';
     drop.style.left = Math.random() * 100 + '%';
