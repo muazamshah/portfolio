@@ -59,6 +59,22 @@ const loadingMessages = [
   'Welcome!'
 ];
 
+// Generate falling digital rain drops
+function createLoaderRain() {
+  const rainContainer = document.getElementById('loaderRain');
+  if (!rainContainer) return;
+  
+  for (let i = 0; i < 30; i++) {
+    const drop = document.createElement('div');
+    drop.className = 'loader-rain-drop';
+    drop.style.left = Math.random() * 100 + '%';
+    drop.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+    drop.style.animationDelay = (Math.random() * 3) + 's';
+    drop.style.height = (Math.random() * 40 + 30) + 'px';
+    rainContainer.appendChild(drop);
+  }
+}
+
 function animateLoader() {
   if (!loaderProgressBar || !loaderStatus) return;
   
@@ -106,6 +122,7 @@ function animateLoader() {
 }
 
 window.addEventListener('load', () => {
+  createLoaderRain();
   animateLoader();
 });
 
