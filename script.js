@@ -156,13 +156,44 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+// ============================================
+// ULTRA SMOOTH SCROLLING
+// ============================================
+// Custom smooth scrolling with easing for ultra-smooth performance
+
+function easeInOutCubic(t) {
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+}
+
+function smoothScrollTo(targetY, duration = 1200) {
+  const startY = window.pageYOffset;
+  const distance = targetY - startY;
+  const startTime = performance.now();
+  
+  function step(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const easedProgress = easeInOutCubic(progress);
+    
+    window.scrollTo(0, startY + distance * easedProgress);
+    
+    if (progress < 1) {
+      requestAnimationFrame(step);
+    }
+  }
+  
+  requestAnimationFrame(step);
+}
+
 document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   anchor.addEventListener('click', (event) => {
     const targetId = anchor.getAttribute('href').slice(1);
     const target = document.getElementById(targetId);
     if (target) {
       event.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - 80; // Account for fixed header
+      smoothScrollTo(targetPosition, 1200);
+      
       if (siteNav && siteNav.classList.contains('open') && navToggle) {
         siteNav.classList.remove('open');
         navToggle.classList.remove('open');
@@ -226,7 +257,7 @@ window.addEventListener('scroll', () => {
 
 if (scrollTopBtn) {
   scrollTopBtn.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    smoothScrollTo(0, 1000);
   });
 }
 
