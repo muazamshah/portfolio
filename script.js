@@ -311,7 +311,7 @@ function animateCursorTrail() {
 animateCursorTrail();
 
 // Subtle depth interaction for the futuristic project and skill panels.
-const interactiveCards = document.querySelectorAll('.skill-card, .project-card, .achievement-card');
+const interactiveCards = document.querySelectorAll('.skill-card, .achievement-card');
 
 interactiveCards.forEach((card) => {
   card.addEventListener('pointermove', (event) => {
@@ -326,6 +326,141 @@ interactiveCards.forEach((card) => {
     card.style.transform = '';
   });
 });
+
+// ============================================
+// 3D GLASSMORPHISM PROJECTS CAROUSEL
+// ============================================
+(function () {
+  const carousel = document.getElementById('projectsCarousel');
+  const stage = document.getElementById('projectsStage');
+  const prevBtn = document.getElementById('carouselPrev');
+  const nextBtn = document.getElementById('carouselNext');
+  const dotsContainer = document.getElementById('carouselDots');
+
+  if (!carousel || !stage) return;
+
+  const cards = Array.from(stage.querySelectorAll('.project-card'));
+  const total = cards.length;
+  if (total === 0) return;
+
+  let current = 0;
+  let autoplayTimer = null;
+  const AUTOPLAY_DELAY = 5000;
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function buildDots() {
+    if (!dotsContainer) return;
+    dotsContainer.innerHTML = '';
+    cards.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'carousel-dot' + (i === current ? ' is-active' : '');
+      dot.setAttribute('role', 'tab');
+      dot.setAttribute('aria-label', 'Go to project ' + (i + 1));
+      dot.setAttribute('aria-selected', i === current ? 'true' : 'false');
+      dot.addEventListener('click', () => {
+        goTo(i);
+        resetAutoplay();
+      });
+      dotsContainer.appendChild(dot);
+    });
+  }
+
+  function update() {
+    cards.forEach((card, i) => {
+      card.classList.remove('is-active', 'is-prev', 'is-next', 'is-hidden');
+      const offset = (i - current + total) % total;
+
+      if (offset === 0) {
+        card.classList.add('is-active');
+        card.setAttribute('aria-hidden', 'false');
+      } else if (offset === 1) {
+        card.classList.add('is-next');
+        card.setAttribute('aria-hidden', 'true');
+      } else if (offset === total - 1) {
+        card.classList.add('is-prev');
+        card.setAttribute('aria-hidden', 'true');
+      } else {
+        card.classList.add('is-hidden');
+        card.setAttribute('aria-hidden', 'true');
+      }
+    });
+
+    if (dotsContainer) {
+      Array.from(dotsContainer.children).forEach((dot, i) => {
+        dot.classList.toggle('is-active', i === current);
+        dot.setAttribute('aria-selected', i === current ? 'true' : 'false');
+      });
+    }
+  }
+
+  function goTo(index) {
+    current = (index + total) % total;
+    update();
+  }
+
+  function next() { goTo(current + 1); }
+  function prev() { goTo(current - 1); }
+
+  function startAutoplay() {
+    if (prefersReducedMotion) return;
+    stopAutoplay();
+    autoplayTimer = setInterval(next, AUTOPLAY_DELAY);
+  }
+
+  function stopAutoplay() {
+    if (autoplayTimer) {
+      clearInterval(autoplayTimer);
+      autoplayTimer = null;
+    }
+  }
+
+  function resetAutoplay() {
+    stopAutoplay();
+    startAutoplay();
+  }
+
+  if (prevBtn) prevBtn.addEventListener('click', () => { prev(); resetAutoplay(); });
+  if (nextBtn) nextBtn.addEventListener('click', () => { next(); resetAutoplay(); });
+
+  carousel.setAttribute('tabindex', '0');
+  carousel.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') { prev(); resetAutoplay(); }
+    else if (e.key === 'ArrowRight') { next(); resetAutoplay(); }
+  });
+
+  carousel.addEventListener('mouseenter', stopAutoplay);
+  carousel.addEventListener('mouseleave', startAutoplay);
+  carousel.addEventListener('focusin', stopAutoplay);
+  carousel.addEventListener('focusout', startAutoplay);
+
+  // Touch / swipe support
+  let touchStartX = 0;
+  carousel.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    stopAutoplay();
+  }, { passive: true });
+
+  carousel.addEventListener('touchend', (e) => {
+    const diff = touchStartX - e.changedTouches[0].screenX;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) next(); else prev();
+      resetAutoplay();
+    } else {
+      startAutoplay();
+    }
+  }, { passive: true });
+
+  buildDots();
+  update();
+  startAutoplay();
+
+  let resizeTimer = null;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(update, 150);
+  });
+})();
 
 
 

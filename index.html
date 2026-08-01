@@ -191,7 +191,8 @@
         <div class="container">
           <span class="section-tag">Projects</span>
           <h2>Featured AI projects</h2>
-          <div class="project-grid">
+          <div class="projects-carousel" id="projectsCarousel" aria-label="Projects carousel">
+            <div class="projects-carousel-stage" id="projectsStage">
             <article class="project-card">
               <div class="project-media">
                   <img src="chatbot.png" alt="AI Chatbot project screenshot" />
@@ -236,6 +237,16 @@
                 </div>
               </div>
             </article>
+            </div>
+
+            <button class="carousel-nav carousel-nav-prev" id="carouselPrev" aria-label="Previous project" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6" /></svg>
+            </button>
+            <button class="carousel-nav carousel-nav-next" id="carouselNext" aria-label="Next project" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6" /></svg>
+            </button>
+
+            <div class="carousel-dots" id="carouselDots" role="tablist" aria-label="Project pagination"></div>
           </div>
         </div>
       </section>
