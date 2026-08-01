@@ -1378,9 +1378,9 @@ button {
 
 .project-card {
   position: absolute;
-  top: 60%;
+  top: 50%;
   left: 50%;
-  width: 500px;
+  width: 330px;
   max-width: 84vw;
   overflow: hidden;
   border-radius: var(--radius-lg);
