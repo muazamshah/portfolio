@@ -328,6 +328,35 @@ interactiveCards.forEach((card) => {
 });
 
 // ============================================
+// BUTTON GLOW TRACKING (Mouse Position)
+// ============================================
+document.querySelectorAll('.button').forEach((btn) => {
+  btn.addEventListener('pointermove', (e) => {
+    const rect = btn.getBoundingClientRect();
+    btn.style.setProperty('--mouse-x', (e.clientX - rect.left) + 'px');
+    btn.style.setProperty('--mouse-y', (e.clientY - rect.top) + 'px');
+  });
+});
+
+// ============================================
+// 3D TILT EFFECT - PROFILE BLOCK
+// ============================================
+const profileBlock = document.querySelector('.profile-block');
+if (profileBlock) {
+  profileBlock.addEventListener('pointermove', (e) => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || window.innerWidth < 900) return;
+    const rect = profileBlock.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    profileBlock.style.transform = `perspective(800px) rotateX(${-y * 8}deg) rotateY(${x * 8}deg) scale(1.02)`;
+  });
+
+  profileBlock.addEventListener('pointerleave', () => {
+    profileBlock.style.transform = '';
+  });
+}
+
+// ============================================
 // 3D GLASSMORPHISM PROJECTS CAROUSEL
 // ============================================
 (function () {
