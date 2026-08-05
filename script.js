@@ -246,7 +246,16 @@ const navSectionObserver = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('main section[id]').forEach((section) => navSectionObserver.observe(section));
 
+// Header scroll effect - add 'scrolled' class for premium glassmorphism
+const siteHeader = document.querySelector('.site-header');
 window.addEventListener('scroll', () => {
+  if (siteHeader) {
+    if (window.scrollY > 50) {
+      siteHeader.classList.add('scrolled');
+    } else {
+      siteHeader.classList.remove('scrolled');
+    }
+  }
   if (!scrollTopBtn) return;
   if (window.scrollY > 400) {
     scrollTopBtn.classList.add('visible');
@@ -254,6 +263,18 @@ window.addEventListener('scroll', () => {
     scrollTopBtn.classList.remove('visible');
   }
 });
+
+// Subtle parallax effect for hero background (desktop only)
+const heroBackground = document.querySelector('.hero-background');
+if (heroBackground && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  window.addEventListener('scroll', () => {
+    if (window.innerWidth < 900) return;
+    const scrolled = window.scrollY;
+    if (scrolled < window.innerHeight) {
+      heroBackground.style.transform = `translateY(${scrolled * 0.3}px)`;
+    }
+  }, { passive: true });
+}
 
 if (scrollTopBtn) {
   scrollTopBtn.addEventListener('click', () => {
@@ -309,6 +330,23 @@ function animateCursorTrail() {
 }
 
 animateCursorTrail();
+
+// Cursor active state toggling for interactive elements
+(function () {
+  if (window.matchMedia('(pointer: coarse)').matches) return; // skip on touch devices
+
+  const interactiveSelector = 'a, button, .button, .project-card, .skill-card, .achievement-card, .site-nav a';
+  const interactives = document.querySelectorAll(interactiveSelector);
+
+  function addListeners(el) {
+    el.addEventListener('pointerenter', () => document.body.classList.add('cursor-active'));
+    el.addEventListener('pointerleave', () => document.body.classList.remove('cursor-active'));
+    el.addEventListener('focus', () => document.body.classList.add('cursor-active'));
+    el.addEventListener('blur', () => document.body.classList.remove('cursor-active'));
+  }
+
+  interactives.forEach(addListeners);
+})();
 
 // Subtle depth interaction for the futuristic project and skill panels.
 const interactiveCards = document.querySelectorAll('.skill-card, .achievement-card');
