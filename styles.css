@@ -1531,8 +1531,8 @@ button {
   position: relative;
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
-  height: 560px;
-  margin-top: 2.25rem;
+  height: 480px;
+  margin-top: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1565,9 +1565,9 @@ button {
 
 .project-card {
   position: absolute;
-  top: 60%;
+  top: 50%;
   left: 50%;
-  width: 520px;
+  width: 420px;
   max-width: 84vw;
   overflow: hidden;
   border-radius: var(--radius-xl);
@@ -1602,7 +1602,7 @@ button {
 }
 
 .project-card.is-active {
-  transform: translate(-50%, -50%) translateZ(240px) scale(1.08) rotateY(0deg);
+  transform: translate(-50%, -50%) translateZ(240px) scale(1.05) rotateY(0deg);
   opacity: 1;
   z-index: 5;
   pointer-events: auto;
@@ -1621,14 +1621,14 @@ button {
 }
 
 .project-card.is-prev {
-  transform: translate(-50%, -50%) translateX(-300px) translateZ(-180px) rotateY(40deg) scale(0.8);
+  transform: translate(-50%, -50%) translateX(-240px) translateZ(-180px) rotateY(40deg) scale(0.75);
   opacity: 0.42;
   z-index: 2;
   filter: blur(5px) brightness(0.72);
 }
 
 .project-card.is-next {
-  transform: translate(-50%, -50%) translateX(300px) translateZ(-180px) rotateY(-40deg) scale(0.8);
+  transform: translate(-50%, -50%) translateX(240px) translateZ(-180px) rotateY(-40deg) scale(0.75);
   opacity: 0.42;
   z-index: 2;
   filter: blur(5px) brightness(0.72);
@@ -1650,7 +1650,7 @@ button {
 
 .project-media {
   position: relative;
-  height: 210px;
+  height: 170px;
   overflow: hidden;
   background: rgba(8, 7, 21, 0.95);
 }
@@ -1680,7 +1680,7 @@ button {
 }
 
 .project-content {
-  padding: 1.75rem;
+  padding: 1.5rem;
 }
 
 .project-content h3 {

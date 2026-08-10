@@ -411,10 +411,9 @@ if (profileBlock) {
   if (total === 0) return;
 
   let current = 0;
-  let autoplayTimer = null;
-  const AUTOPLAY_DELAY = 5000;
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // Manual navigation only - no autoplay
   function buildDots() {
     if (!dotsContainer) return;
     dotsContainer.innerHTML = '';
@@ -425,10 +424,7 @@ if (profileBlock) {
       dot.setAttribute('role', 'tab');
       dot.setAttribute('aria-label', 'Go to project ' + (i + 1));
       dot.setAttribute('aria-selected', i === current ? 'true' : 'false');
-      dot.addEventListener('click', () => {
-        goTo(i);
-        resetAutoplay();
-      });
+      dot.addEventListener('click', () => goTo(i));
       dotsContainer.appendChild(dot);
     });
   }
@@ -469,58 +465,30 @@ if (profileBlock) {
   function next() { goTo(current + 1); }
   function prev() { goTo(current - 1); }
 
-  function startAutoplay() {
-    if (prefersReducedMotion) return;
-    stopAutoplay();
-    autoplayTimer = setInterval(next, AUTOPLAY_DELAY);
-  }
-
-  function stopAutoplay() {
-    if (autoplayTimer) {
-      clearInterval(autoplayTimer);
-      autoplayTimer = null;
-    }
-  }
-
-  function resetAutoplay() {
-    stopAutoplay();
-    startAutoplay();
-  }
-
-  if (prevBtn) prevBtn.addEventListener('click', () => { prev(); resetAutoplay(); });
-  if (nextBtn) nextBtn.addEventListener('click', () => { next(); resetAutoplay(); });
+  if (prevBtn) prevBtn.addEventListener('click', () => { prev(); });
+  if (nextBtn) nextBtn.addEventListener('click', () => { next(); });
 
   carousel.setAttribute('tabindex', '0');
   carousel.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft') { prev(); resetAutoplay(); }
-    else if (e.key === 'ArrowRight') { next(); resetAutoplay(); }
+    if (e.key === 'ArrowLeft') { prev(); }
+    else if (e.key === 'ArrowRight') { next(); }
   });
-
-  carousel.addEventListener('mouseenter', stopAutoplay);
-  carousel.addEventListener('mouseleave', startAutoplay);
-  carousel.addEventListener('focusin', stopAutoplay);
-  carousel.addEventListener('focusout', startAutoplay);
 
   // Touch / swipe support
   let touchStartX = 0;
   carousel.addEventListener('touchstart', (e) => {
     touchStartX = e.changedTouches[0].screenX;
-    stopAutoplay();
   }, { passive: true });
 
   carousel.addEventListener('touchend', (e) => {
     const diff = touchStartX - e.changedTouches[0].screenX;
     if (Math.abs(diff) > 40) {
       if (diff > 0) next(); else prev();
-      resetAutoplay();
-    } else {
-      startAutoplay();
     }
   }, { passive: true });
 
   buildDots();
   update();
-  startAutoplay();
 
   let resizeTimer = null;
   window.addEventListener('resize', () => {
